@@ -1,0 +1,14 @@
+name: VoxelVerseExpBottler
+version: 1.0
+main: me.drmayx.voxelexpbottler.voxelverseexpbottler.VoxelVerseExpBottler
+api-version: 1.13
+description: a plugin to put your xp inside an bottle-o-enchantment
+
+commands:
+  bottle:
+    description: Put your xp into a bottle !
+    usage: /<command> [check|amount|help|?]
+permissions:
+expbottler.admin:
+  description: Allows a player to use reload.
+  default: op
