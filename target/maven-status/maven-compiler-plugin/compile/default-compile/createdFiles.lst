@@ -1,3 +1,4 @@
+me\drmayx\voxelexpbottler\utils\ExpUtils.class
 me\drmayx\voxelexpbottler\voxelverseexpbottler\VoxelVerseExpBottler.class
 me\drmayx\voxelexpbottler\commands\ExpBottleCommand.class
 me\drmayx\voxelexpbottler\listeners\ExpListener.class

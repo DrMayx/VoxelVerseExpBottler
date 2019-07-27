@@ -1,5 +1,6 @@
 package me.drmayx.voxelexpbottler.commands;
 
+import me.drmayx.voxelexpbottler.utils.ExpUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -81,7 +82,7 @@ public class ExpBottleCommand implements CommandExecutor {
 
     private void handleBottling(Player player, Integer amount ){
         if(amount > 0) {
-            float playerXp = player.getTotalExperience();
+            float playerXp = ExpUtils.getUserExp(player);
             if (playerXp >= amount) {
                 PlayerInventory playerInv = player.getInventory();
                 if (playerInv.getItemInMainHand().getAmount() > 1) {
@@ -127,7 +128,7 @@ public class ExpBottleCommand implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("check")) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        String.format("Your current xp is: &2%s&r", player.getTotalExperience())));
+                        String.format("Your current xp is: &2%s&r", ExpUtils.getUserExp(player))));
             }else {
                 try {
                     int exp = Integer.parseInt(args[0]);

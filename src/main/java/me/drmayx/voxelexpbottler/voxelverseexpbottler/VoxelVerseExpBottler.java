@@ -20,12 +20,12 @@ public final class VoxelVerseExpBottler extends JavaPlugin {
         doConfig();
         String newlineIndicator = config.getString("newline_indicator");
         String helpMessage = config.getString("help_message");
-        if(newlineIndicator != null){
+        if(newlineIndicator != null) {
             helpMessage = helpMessage.replace(newlineIndicator, "\n");
         }
 
         listenerObject = new ExpListener();
-        commandObject = new ExpBottleCommand(helpMessage);
+        commandObject = new ExpBottleCommand(helpMessage);//, essentialsPlugin);
 
         getServer().getPluginManager().registerEvents(listenerObject, this);
         getCommand("bottle").setExecutor(commandObject);
