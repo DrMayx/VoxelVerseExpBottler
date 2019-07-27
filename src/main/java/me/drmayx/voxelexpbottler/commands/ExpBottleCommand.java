@@ -3,25 +3,52 @@ package me.drmayx.voxelexpbottler.commands;
 import me.drmayx.voxelexpbottler.utils.ExpUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExpBottleCommand implements CommandExecutor {
 
     private String helpMessage = "Contact admin";
+    private String bottleTitle = "&b&lExp Bottle&r";
+    private List<String> loreData = new ArrayList<>();
+    private Integer defaultXp = 420;
 
-    public ExpBottleCommand(String message){
-        if(message != null){
-            helpMessage = message;
+    public ExpBottleCommand(YamlConfiguration config){
+        String newlineIndicator = config.getString("newline_indicator");
+        String helpMessage = config.getString("help_message");
+        if(newlineIndicator != null) {
+            helpMessage = helpMessage.replace(newlineIndicator, "\n");
+        }
+
+        String title = config.getString("bottle_info.title");
+        if(title != null){
+            this.bottleTitle = title;
+        }
+
+        List<String> lore = config.getStringList("bottle_info.lore");
+        if(lore != null){
+            this.loreData = lore;
+        }
+
+        if(helpMessage != null){
+            this.helpMessage = helpMessage;
+        }
+
+        int defaultValue = config.getInt("bottle_info.default_xp_value", -1);
+        if(defaultValue > 0){
+            this.defaultXp = defaultValue;
         }
     }
 
@@ -70,10 +97,17 @@ public class ExpBottleCommand implements CommandExecutor {
         PotionMeta bottleMeta = (PotionMeta) xpBottleItem.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add(ChatColor.translateAlternateColorCodes('&', String.format("&e&l* %s xp in a bottle&r", amount)));
-        bottleMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b&lExp Bottle&r"));
+        if(this.loreData.size() > 0){
+            for(String data : this.loreData){
+                lore.add(ChatColor.translateAlternateColorCodes('&', data));
+            }
+        }
+
+        lore.add(ChatColor.translateAlternateColorCodes('&', String.format("&7&oContains %s Exp&r", amount)));
+        bottleMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', this.bottleTitle));
         bottleMeta.setLore(lore);
-        bottleMeta.addEnchant(Enchantment.DURABILITY, 69, true);
+        bottleMeta.setColor(Color.GREEN);
+        bottleMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES);
 
         xpBottleItem.setItemMeta(bottleMeta);
 
@@ -157,7 +191,7 @@ public class ExpBottleCommand implements CommandExecutor {
             Player player = (Player)sender;
 
             if (player.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
-                handleBottling(player, 420);
+                handleBottling(player, this.defaultXp);
             }else{
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         "&4You have to be holding an empty glass bottle in your main hand.&r"));

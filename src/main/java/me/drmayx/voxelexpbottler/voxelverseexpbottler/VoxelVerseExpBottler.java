@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class VoxelVerseExpBottler extends JavaPlugin {
 
@@ -18,14 +20,9 @@ public final class VoxelVerseExpBottler extends JavaPlugin {
     @Override
     public void onEnable() {
         doConfig();
-        String newlineIndicator = config.getString("newline_indicator");
-        String helpMessage = config.getString("help_message");
-        if(newlineIndicator != null) {
-            helpMessage = helpMessage.replace(newlineIndicator, "\n");
-        }
 
         listenerObject = new ExpListener();
-        commandObject = new ExpBottleCommand(helpMessage);//, essentialsPlugin);
+        commandObject = new ExpBottleCommand(config);
 
         getServer().getPluginManager().registerEvents(listenerObject, this);
         getCommand("bottle").setExecutor(commandObject);
@@ -53,7 +50,6 @@ public final class VoxelVerseExpBottler extends JavaPlugin {
 
     private void generateConfig(){
         YamlConfiguration config = (YamlConfiguration) this.getConfig();
-        config.options().header("Not much to configure. Just set the help message.");
         config.set("newline_indicator", "&nl");
         config.set("help_message", "&4-------------- Voxel Verse Exp Bottler -----------------&r&nl" +
                                   "&6 YOU NEED TO BE HOLDING EMPTY GLASS BOTTLE TO USE /bottle&r&nl" +
@@ -62,6 +58,14 @@ public final class VoxelVerseExpBottler extends JavaPlugin {
                                   "&b - /bottle check - shows your current xp,&r&nl" +
                                   "&d - /bottle <amount> - puts given xp amount into the bottle,&r&nl" +
                                   "&5-------------------- by DrMayX -----------------------&r");
+
+        List<String> lore = new ArrayList<>();
+        lore.add("Some custom lore");
+        lore.add("&dEven more custom lore&r");
+
+        config.set("bottle_info.title", "&b&lExp Bottle");
+        config.set("bottle_info.default_xp_value", 69420);
+        config.set("bottle_info.lore", lore);
         this.saveConfig();
     }
 }

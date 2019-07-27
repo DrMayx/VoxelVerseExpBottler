@@ -10,4 +10,5 @@ To check how much exp you currently have type `/bottle check` in chat.
 
 ## Changelog
 1.0 - Created a plugin.  
-1.1 - Fixed calculating player's xp which allowed players to generate xp through bottling.
+1.1 - Fixed calculating player's xp which allowed players to generate xp through bottling.  
+1.1a - Added more customization to the title and lore of the exp bottle.  
