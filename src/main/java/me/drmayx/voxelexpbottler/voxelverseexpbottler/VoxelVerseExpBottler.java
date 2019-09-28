@@ -50,6 +50,7 @@ public final class VoxelVerseExpBottler extends JavaPlugin {
 
     private void generateConfig(){
         YamlConfiguration config = (YamlConfiguration) this.getConfig();
+        config.options().header("To show amount of the exp in the bottle add '{amount}' to the title anywhere you want it.");
         config.set("newline_indicator", "&nl");
         config.set("help_message", "&4-------------- Voxel Verse Exp Bottler -----------------&r&nl" +
                                   "&6 YOU NEED TO BE HOLDING EMPTY GLASS BOTTLE TO USE /bottle&r&nl" +

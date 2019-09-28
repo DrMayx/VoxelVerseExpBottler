@@ -104,7 +104,7 @@ public class ExpBottleCommand implements CommandExecutor {
         }
 
         lore.add(ChatColor.translateAlternateColorCodes('&', String.format("&7&oContains %s Exp&r", amount)));
-        bottleMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', this.bottleTitle));
+        bottleMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', this.bottleTitle.replace("{amount}", amount)));
         bottleMeta.setLore(lore);
         bottleMeta.setColor(Color.GREEN);
         bottleMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES);
